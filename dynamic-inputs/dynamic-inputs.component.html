@@ -1,0 +1,93 @@
+<span *ngIf="inputObject.formatSpec != 'Drop-Down'">
+            <!--<span *ngIf="inputObject.formatSpec == 'TextArea'" [addtxtarea]="inputObject.formatSpec == 'TextArea'" [value]="inputObject"></span>-->
+            <!--
+            Note.
+                temporary. this is just a fast and dirty solution. still working on using directive for dynamic inputs.
+            -->
+            <textarea  *ngIf="inputObject.formatSpec == 'TextArea' " #txtarea name="txtarea" [id]="inputObject.fieldObjectId" (ngModelChange)="change()" (blur)="validate(inputObject.isRequired)" [name]="inputObject.fieldObjectId" [(ngModel)]="inputObject.defaultValue" [value]="inputObject.fieldObjectId" [id]="inputObject.fieldObjectId"></textarea>
+            <input *ngIf="inputObject.formatSpec != 'TextArea' " #inputs [type]="getInputType(inputObject.formatSpec)" (ngModelChange)="change()" (blur)="validate(inputObject.isRequired)" [name]="inputObject.fieldObjectId" [(ngModel)]="inputObject.defaultValue" [value]="inputObject.fieldObjectId" [id]="inputObject.fieldObjectId"><i *ngIf="hasError" (mouseover)="show=true" (mouseout)="show=false" class="fa fa-exclamation-circle error-note"></i>
+            <span class="popup-msg error-msg" [class.show]="show">{{ inputObject.fieldName }} is required</span>
+</span>
+<span *ngIf="inputObject.formatSpec == 'Drop-Down'">
+        <!--<select #select [name]="inputObject.fieldName" (blur)="validate(inputObject.isRequired)" (ngModelChange)="change()" [(ngModel)]="inputObject.defaultValue" >-->
+            <!--<option [value]="null || ''" > Select {{ inputObject.fieldName }} </option>-->
+            <!--<option *ngFor="let opt of inputObject.fieldOptions" [id]="opt.fieldName + opt.fieldOptionObjectId"   [value]="opt.fieldOptionObjectId">{{ opt.fieldOptionLabel }}</option>-->
+        <!--</select>-->
+        <dropdown #select
+        [object]="inputObject.fieldOptions"
+        [optionValue]="'fieldOptionObjectId'"
+        [optionLabel]="'fieldOptionLabel'"
+        [placeholder]="'Select ' + inputObject.fieldName"
+        [autocomplete]="inputObject.fieldOptions.length > 10 ? true:false"
+        (emitItem)="inputObject.defaultValue = $event; change()"
+        ></dropdown>
+        <i *ngIf="hasError" (mouseover)="show=true" (mouseout)="show=false" class="fa fa-exclamation-circle error-note"></i>
+        <span *ngIf="inputObject.relationalTableName == 'CaseParticipant'" class="inf" (click)="onClickShowModal()"><i class="fonticon fonticon-id-card-o btn-card"></i> </span>
+<span class="popup-msg error-msg" [class.show]="show">{{ inputObject.fieldName }} is required</span>
+</span>
+
+
+
+
+<!-- ALUMNI MODAL COMPONENT -->
+<alumni-modal #modal [title]="inputObject.defaultValue ? 'Edit' : 'Add'">
+    <!-- ALUMNI MODAL TEMPLATE -->
+    <!-- this is to prepare modal for dynamic form/content. -->
+    <section>
+        <div class="alumni">
+
+            <div>
+                <div class="form">
+                    <form>
+                        <div class="right-panel">
+                            <span class="alumnus-photo">Alumnus Photo</span>
+                            <img #img [src]="alumnusPhotoPath" alt="photo">
+                            <span class="fa fa-camera upload" title="Add Photo" (click)="userFile.click()"></span>
+                            <input #userFile type="file" (change)="onChangeAlumnusPhoto( $event )" accept="image/png, image/jpeg">
+                        </div>
+                        <div><label for="alumnus_last_name">Last Name <span>*</span></label><input id="alumnus_last_name" name="alumnus_last_name"
+                                type="text" [(ngModel)]="caseParticipant.participantLastName"></div>
+                        <!--<div><label for="alumnus_first_name">First Name <span>*</span></label><input id="alumnus_first_name" name="alumnus_first_name"-->
+                                <!--type="text" [(ngModel)]="caseParticipant.participantFirstName"></div>-->
+                        <div><label for="alumnus_display_name">Given Name <span>*</span></label><input id="alumnus_display_name"
+                                name="alumnus_display_name" type="text" [(ngModel)]="caseParticipant.participantFirstName"></div>
+
+						<div><label for="alumnus_display_name">Display Name</label><input id="alumnus_display_name" value="{{caseParticipant.participantLastName}} {{caseParticipant.participantFirstName}}"
+                                name="alumnus_display_name" readonly="readonly" type="text" [(ngModel)]="caseParticipant.participantName"></div>
+
+                        <div><label for="alumnus_school">School/Program</label><input id="alumnus_school" name="alumnus_school"
+                                type="text" [(ngModel)]="caseParticipant.customText7"></div>
+
+                        <div><label for="alumnus_graduated">Year Graduated <span>*</span></label><input id="alumnus_graduated" name="alumnus_graduated" id="alumnus_graduated" type="text" [(ngModel)]="caseParticipant.customText1"
+                                pattern="[0-9]{4}"></div>
+                        <div><label for="alumnus_country">Country <span>*</span></label><input id="alumnus_country" name="alumnus_country" type="text"
+                                [(ngModel)]="caseParticipant.customText8"></div>
+
+                        <div><label for="alumnus_email">Contact Email <span>*</span></label><input id="alumnus_email" name="alumnus_email" id="alumnus_email" type="email" [(ngModel)]="caseParticipant.participantEmailAddress"></div>
+                        <div><label for="country_code"> Country Code <span>*</span></label><select name="countrycode" id="country_code">
+                            <option value="0">Country Code</option>
+                            <option value="1">PH(+63)</option>
+                        </select></div>
+                        <div><label for="alumnus_phonenumber">Contact Number <span>*</span></label><input id="alumnus_phonenumber" name="alumnus_phonenumber" id="alumnus_phonenumber" type="text" [(ngModel)]="caseParticipant.customText2"
+                                pattern="[0-9]{12}"></div>
+
+                        <div><label for="alumnus_account">FB Account </label><input id="alumnus_account" name="alumnus_account" type="text" [(ngModel)]="caseParticipant.customText3"></div>
+                        <div><label for="alumnus_org">Organization </label><input id="alumnus_org" name="alumnus_org" type="text" [(ngModel)]="caseParticipant.customText4"></div>
+                        <div><label for="alumnus_pos">Position </label><input id="alumnus_pos" name="alumnus_pos" type="text" [(ngModel)]="caseParticipant.customText5"></div>
+                        <div><label for="alumnus_web">Website </label><input id="alumnus_web" name="alumnus_web" type="text" [(ngModel)]="caseParticipant.customText6"></div>
+                        <!--<div class="note"  *ngIf="!inputObject.defaultValue">-->
+                            <!--<span class="note">*</span>Required fields.-->
+                        <!--</div>-->
+                        <div class="controls">
+                            <button [class.error-form]="isInvalid" class="on-save" (click)="onClickSave()">Save</button><button (click)="onClickCancel()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+</alumni-modal>

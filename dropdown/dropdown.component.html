@@ -1,0 +1,11 @@
+<div class="dropdown-component">
+    <span class="select-container" (click)="toggleCollapse()">
+    <input type="text" [placeholder]="placeholder" [(ngModel)]="value" disabled>
+</span>
+    <div class="content" [class.show]="showDropdown" [class.withoutautocomplete]="showDropdown && !autocomplete" (blur)="blrd()" [class.withautocomplete]="showDropdown && autocomplete" >
+        <div class="default" *ngIf="autocomplete"><input type="text" class="filter-drp" [(ngModel)]="filterTxt"></div>
+        <div>
+            <div class="item" (click)="onClickSelectItem( item )" [class.selected-itm]="item[optionLabel] == value" *ngFor="let item of object | filter: optionLabel:  filterTxt">{{ item[optionLabel]}}</div>
+        </div>
+    </div>
+</div>

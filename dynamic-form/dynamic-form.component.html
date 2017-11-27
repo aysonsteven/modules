@@ -1,0 +1,37 @@
+<div [ngSwitch]="tagset?.withGrouping">
+    <template [ngSwitchCase]="true">
+        <div class="form" *ngFor="let form of tagset?.caseReviewSetGroup; let i = index">
+            <div class="hlabel">{{ form.reviewSetGroupName }}</div>
+            <form>
+                <div *ngFor="let subForm of form?.casefields"><label [class.txtarea-lbl]="subForm.formatSpec == 'TextArea'">{{ subForm.fieldName }} <span *ngIf="subForm.isRequired">*</span></label>
+                    <!--<select name="nature" >-->
+                    <!--<option value=" ">&nbsp;</option>-->
+                    <!--<option *ngFor="let option of subForm.fieldOptions"  [value]="option.fieldOptionObjectId">{{ option.fieldOptionLabel }}</option>-->
+                    <!--</select>
+        -->
+                    <dynamic-input (openModal)="openModal()" [inputObject]="subForm" (emitValidations)="testEmit($event);">
+
+                    </dynamic-input>
+                    <!--
+            -->
+                </div>
+
+            </form>
+        </div>
+
+    </template>
+
+
+    <template [ngSwitchCase]="false">
+       <div class="form">
+        <form>
+            <div *ngFor="let subForm of tagset?.casefields"><label [class.txtarea-lbl]="subForm.formatSpec == 'TextArea'">{{ subForm.fieldName }} <span *ngIf="subForm.isRequired">*</span></label>
+                <dynamic-input (openModal)="openModal()" [inputObject]="subForm" (emitValidations)="testEmit($event);">
+                </dynamic-input>
+            </div>
+
+        </form>
+       </div>
+
+    </template>
+</div>

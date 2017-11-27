@@ -1,0 +1,113 @@
+@mixin item(){
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  font-size: 12px;
+  font-family: 'Candara Bold', 'Candara Regular', 'Candara'
+}
+input{
+  outline: none;
+  font-size: 12px;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  user-input: none;
+  padding-right: 30px !important;
+  text-overflow: ellipsis;
+}
+
+.select-container{
+  position: relative;
+  cursor: pointer;
+  &:after {
+    content:"\f0d7";
+    font-family: "FontAwesome", serif;
+    font-size: 18px;
+    color:#776767;
+    right:8px; top:2px;
+    padding:0 0 2px;
+    position:absolute;
+    pointer-event: none;
+
+  }
+}
+
+div.dropdown-component{
+  display: inline;
+  position: relative;
+}
+div.content{
+  width: 338px;
+  background-color: #f2f2f2;
+  position: absolute;
+  left: 0;
+  z-index: 999;
+
+  max-height: 0;
+  overflow: auto;
+  transition: all 0.2s ease;
+  -webkit-background-clip: text;
+  &:hover{
+    background-color: #d2d2d2;
+  }
+  &::-webkit-scrollbar{
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: inherit;
+
+  }
+  &::-webkit-scrollbar-track{
+    //background-color: inherit;
+    background-color: #f2f2f2
+  }
+  .item{
+    @include item();
+    cursor: pointer;
+  }
+
+  .item:hover{
+    background-color: #fff;
+  }
+
+  .default{
+    @include item();
+    &:after{
+      content: '\f002';
+      font-family: FontAwesome, serif;
+      position: relative;
+      float: right;
+      bottom: 19px;
+      right: 10px;
+      opacity: 0.5;
+    }
+  }
+
+  .filter-drp{
+    width: 100% !important;
+  }
+
+}
+.withoutautocomplete{
+  max-height: 140px !important;
+}
+.show{
+  box-shadow: 2px 2px 3px 1px #d2d2d2;
+}
+
+.withautocomplete{
+  max-height: 151px !important;
+}
+
+.selected-itm{
+  background-color: #ffffff !important;
+  font-weight: 600;
+}

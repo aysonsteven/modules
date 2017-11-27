@@ -1,0 +1,12 @@
+<div *ngIf="isProgressShown" class="pull-left progress-container">
+	<div *ngFor="let workflowTracker of workflowTrackerBean.activityList;"
+		class="progress">
+		<div
+			[ngClass]="{'progress-bar' : true, 'progress-bar-success':!workflowTracker.isWithError, 'progress-bar-info progress-bar-striped active': !workflowTracker.isCompleted,'progress-bar-danger':workflowTracker.isWithError}"
+			[ngStyle]="{ 'width': workflowTracker.progressValue + '%' }">
+			<span>{{workflowTracker.activityName}}</span>
+		</div>
+	</div>
+	<label class="status">{{workflowTrackerBean.overallProgressValue}}%
+		{{workflowTrackerBean.status}}</label>
+</div>
